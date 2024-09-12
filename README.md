@@ -46,25 +46,12 @@ A web application for managing, sharing, and discovering recipes. Users can regi
 5. **Open your web browser and visit:**
     http://127.0.0.1:5000
     
-**Project Structure:**
-    recipe-book-app/
-    ├── app.py                # Main application file
-    ├── requirements.txt      # Python dependencies
-    ├── static/
-    │   ├── css/
-    │   │   ├── style.css     # Custom styles
-    │   │   └── bootstrap.min.css # Optional Bootstrap styles
-    │   └── uploads/          # Uploaded recipe images
-    ├── templates/
-    │   ├── base.html         # Base template for all pages
-    │   ├── index.html        # Home page template
-    │   ├── register.html     # Registration page template
-    │   ├── login.html        # Login page template
-    │   ├── profile.html      # User profile page template
-    │   ├── add_recipe.html   # Add recipe page template
-    │   ├── recipe_detail.html # Recipe details page template
-    │   └── manage_recipes.html # Manage user recipes page template
-    └── README.md             # Project README file
+### Project Structure
+recipe-book-app/ ├── app.py # Main application file ├── requirements.txt # Python dependencies ├── static/
+│ ├── css/
+│ │ ├── style.css # Custom styles │ │ └── bootstrap.min.css # Optional Bootstrap styles │ └── uploads/ # Uploaded recipe images ├── templates/
+│ ├── base.html # Base template for all pages │ ├── index.html # Home page template │ ├── register.html # Registration page template │ ├── login.html # Login page template │ ├── profile.html # User profile page template │ ├── add_recipe.html # Add recipe page template │ ├── recipe_detail.html # Recipe details page template │ └── manage_recipes.html # Manage user recipes page template └── README.md # Project README file
+
 Usage
 
     Register/Login: Create an account or log in with an existing account.
