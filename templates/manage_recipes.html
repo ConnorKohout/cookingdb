@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Recipes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Manage Your Recipes</h1>
+    </header>
+
+    <div class="container">
+        <ul class="featured-recipe">
+            {% for recipe in recipes %}
+                <li>
+                    <a href="{{ url_for('recipe_detail', recipe_id=recipe[0]) }}">{{ recipe[2] }}</a>
+                    <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}">Edit</a> |
+                    <form action="{{ url_for('delete_recipe', recipe_id=recipe[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Recipe App. All rights reserved.</p>
+    </footer>
+</body>
+</html>

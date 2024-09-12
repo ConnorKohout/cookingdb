@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Recipe Details - Recipe App
+{% endblock %}
+
+{% block content %}
+<div class="featured-recipe">
+    <h2>{{ recipe[2] }}</h2> <!-- Recipe name -->
+    <p><strong>Author:</strong> {{ recipe[-1] }}</p>
+    <p><strong>Cuisine:</strong> {{ recipe[4] }}</p>
+    <p><strong>Preparation Time:</strong> {{ recipe[5] }} minutes</p>
+    <p><strong>Cooking Time:</strong> {{ recipe[6] }} minutes</p>
+    <p><strong>Diet Type:</strong> {{ recipe[7] }}</p>
+
+    <!-- Display Recipe Images -->
+    <div class="recipe-images">
+        {% for image in images %}
+            <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="recipe-image">
+        {% endfor %}
+    </div>
+
+    <h3>Instructions:</h3>
+    <p>{{ recipe[3] }}</p>
+
+    <h3>Ingredients:</h3>
+    <ul>
+        {% for ingredient in ingredients %}
+            <li>{{ ingredient[2] }}: {{ ingredient[3] }} {{ ingredient[4] }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if current_user.is_authenticated and (current_user.id == recipe[1] or current_user.is_admin) %}
+        <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}" class="btn">Edit Recipe</a>
+    {% endif %}
+</div>
+{% endblock %}

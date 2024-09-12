@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+View Others' Recipes - Recipe App
+{% endblock %}
+
+{% block content %}
+<div class="featured-recipe">
+    <h2>Other Users' Recipes</h2>
+    <ul>
+        {% for recipe in recipes %}
+        <li>
+            <strong>{{ recipe[2] }}</strong> by {{ recipe[9] }} 
+            <a href="{{ url_for('recipe_detail', recipe_id=recipe[0]) }}">View Details</a>
+        </li>
+        {% else %}
+        <li>No recipes available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

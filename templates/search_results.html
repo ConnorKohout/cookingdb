@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Search Results for "{{ query }}"</h1>
+        <a href="{{ url_for('view_others_recipes') }}">Back to All Recipes</a>
+    </header>
+
+    <div class="container">
+        <ul class="featured-recipe">
+            {% if recipes %}
+                {% for recipe in recipes %}
+                <li>
+                    <strong>{{ recipe[2] }}</strong> by {{ recipe[9] }} <!-- Recipe name and author's name -->
+                    <a href="{{ url_for('recipe_detail', recipe_id=recipe[0]) }}">View Details</a>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li>No recipes found matching your search query.</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Recipe App. All rights reserved.</p>
+    </footer>
+</body>
+</html>

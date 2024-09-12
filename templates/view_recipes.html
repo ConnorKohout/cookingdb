@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Recipe Book - Your Recipes
+{% endblock %}
+
+{% block content %}
+<style>
+    /* Sidebar styles */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 250px;
+        background-color: #f8f9fa;
+        padding: 15px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 10px;
+        color: #007bff;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
+    .sidebar a:hover {
+        background-color: #e9ecef;
+        color: #0056b3;
+    }
+
+    .content {
+        margin-left: 270px; /* Adjust this margin to account for the sidebar width */
+        padding: 15px;
+    }
+</style>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4>Navigation</h4>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('add_recipe') }}">Add Recipe</a>
+    <a href="{{ url_for('manage_recipes') }}">Manage Recipes</a>
+    <a href="{{ url_for('view_others_recipes') }}">View Others' Recipes</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<!-- Theme Toggle Button -->
+<button id="toggleTheme" class="btn btn-outline-secondary m-3">Toggle Dark Mode</button>
+
+<!-- Main Content -->
+<div class="content">
+    <div class="container mt-5">
+        <h1>Your Recipes</h1>
+        {% if recipes %}
+        <div class="row">
+            {% for recipe in recipes %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    {% if recipe[8] %} <!-- Assuming the photo path is in column 8 -->
+                    <img src="{{ url_for('uploaded_file', filename=recipe[8]) }}" class="img-fluid" alt="{{ recipe[2] }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe[2] }}</h5> <!-- Assuming the recipe name is in column 2 -->
+                        <p class="card-text">{{ recipe[3][:100] }}...</p> <!-- Example: Display a snippet of instructions -->
+                        <a href="{{ url_for('recipe_detail', recipe_id=recipe[0]) }}" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No recipes found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('toggleTheme').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
+{% endblock %}
