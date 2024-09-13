@@ -4,16 +4,24 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
+import configparser
+
+# Load configuration from config.ini
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 # Configuration
-UPLOAD_FOLDER = 'static/uploads/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+UPLOAD_FOLDER = config['DEFAULT']['UPLOAD_FOLDER']
+ALLOWED_EXTENSIONS = set(config['DEFAULT']['ALLOWED_EXTENSIONS'].split(','))
+SECRET_KEY = config['DEFAULT']['SECRET_KEY']
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'your_secret_key'  # Replace with a secure secret key
+app.secret_key = SECRET_KEY  # Use the secret key from the config file
 
 bcrypt = Bcrypt(app)
+
+# The rest of your Flask app code...
 
 # Flask-Login setup
 login_manager = LoginManager(app)
