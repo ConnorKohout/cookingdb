@@ -9,9 +9,11 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column; /* Enable vertical stacking */
+    min-height: 100vh; /* Ensure body takes full height */
     transition: background-color 0.3s, color 0.3s;
 }
-
 /* Input and Text Area Styles for Light Mode */
 input, textarea {
     background-color: #ffffff;
@@ -61,10 +63,9 @@ input::placeholder, textarea::placeholder {
 .main-content {
     margin-left: 270px;
     padding: 20px;
-    height: 100vh;
-    overflow-y: auto;
+    flex: 1; /* Allow main content to take up remaining space */
+    overflow-y: auto; /* Enable scrolling for overflowing content */
     box-sizing: border-box;
-    flex: 1;
 }
 
 /* Dark Mode Styles */
@@ -90,18 +91,35 @@ input::placeholder, textarea::placeholder {
 
 /* Card Styles for Dark Mode */
 .dark-mode .card {
-    background-color: #1e1e1e; /* Dark background for card */
-    color: #ffffff; /* Light text color for card */
-    border-color: #333333; /* Border color for card */
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #333333;
 }
+
+/* Ensure proper layout and spacing */
+.container {
+    max-width: 900px; /* Set a max-width to keep content centered */
+    margin: auto;
+}
+
+.card {
+    margin-bottom: 20px; /* Add margin at the bottom */
+}
+
+/* Handle overflow for large content */
+.card-body {
+    overflow-y: auto; /* Allow vertical scrolling if content is too large */
+    max-height: 80vh; /* Restrict max height to avoid full overflow on smaller screens */
+}
+
 
 .dark-mode .card-title, 
 .dark-mode .card-text {
-    color: #ffffff; /* Light text color for titles and text inside cards */
+    color: #ffffff;
 }
 
 .dark-mode .btn-primary {
-    background-color: #bb86fc; /* Adjusted button color for dark mode */
+    background-color: #bb86fc;
     border-color: #bb86fc;
 }
 
@@ -173,14 +191,27 @@ input::placeholder, textarea::placeholder {
     background-color: #0056b3;
 }
 
+
+/* Recipe Image Styles */
+.recipe-image {
+    max-width: 100%;  /* Ensure the image does not exceed the container width */
+    max-height: 500px; /* Set a maximum height to prevent overly large images */
+    object-fit: contain; /* Maintain the aspect ratio without cropping */
+    margin: auto; /* Center the image */
+    display: block; /* Ensure the image is treated as a block-level element */
+}
+
+
 /* Footer */
 footer {
     text-align: center;
     padding: 10px;
     background-color: #f8f9fa;
-    width: 100%;
-    position: fixed;
+    width: calc(100% - 250px); /* Adjust width for sidebar */
+    margin-left: 250px; /* Offset footer by the sidebar width */
     bottom: 0;
+    left: 0;
+    position: relative; /* Remove fixed positioning */
 }
 
 /* Adjustments for Mobile Devices */
@@ -194,4 +225,11 @@ footer {
     .main-content {
         margin-left: 0;
     }
+
+    footer {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    
 }

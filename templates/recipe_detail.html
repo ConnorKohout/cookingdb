@@ -9,7 +9,7 @@ Recipe Details - Recipe App
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <!-- Recipe Information -->
-            <h2 class="card-title">{{ recipe[2] }}</h2> <!-- Recipe name -->
+            <h2 class="card-title mb-4">{{ recipe[2] }}</h2> <!-- Recipe name -->
             <p class="card-text"><strong>Author:</strong> {{ recipe[-1] }}</p>
             <p class="card-text"><strong>Cuisine:</strong> {{ recipe[4] }}</p>
             <p class="card-text"><strong>Preparation Time:</strong> {{ recipe[5] }} minutes</p>
@@ -17,23 +17,29 @@ Recipe Details - Recipe App
             <p class="card-text"><strong>Diet Type:</strong> {{ recipe[7] }}</p>
 
             <!-- Display Recipe Images -->
-            <div class="recipe-images mt-4">
-                {% for image in images %}
-                    <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="img-fluid rounded shadow-sm mb-3">
-                {% endfor %}
+            {% if images %}
+            <div id="recipeCarousel" class="carousel slide mt-4 mb-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="d-block w-100 img-fluid rounded shadow-sm recipe-image">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#recipeCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#recipeCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+            {% endif %}
 
             <!-- Recipe Instructions -->
             <h3 class="mt-4">Instructions:</h3>
-            <p>{{ recipe[3] }}</p>
-
-            <!-- Recipe Ingredients -->
-            <h3 class="mt-4">Ingredients:</h3>
-            <ul>
-                {% for ingredient in ingredients %}
-                    <li>{{ ingredient[2] }}: {{ ingredient[3] }} {{ ingredient[4] }}</li>
-                {% endfor %}
-            </ul>
+            <p style="white-space: pre-wrap;">{{ recipe[3] }}</p>   
 
             <!-- Edit Button for Authorized Users -->
             {% if current_user.is_authenticated and (current_user.id == recipe[1] or current_user.is_admin) %}
