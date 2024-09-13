@@ -5,8 +5,25 @@ Recipe Details - Recipe App
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow-sm mb-4">
+<style>
+    /* Make the container resizable */
+    .resizable-container {
+        resize: both; /* Allow both horizontal and vertical resizing */
+        overflow: auto; /* Enable scrolling if the content overflows */
+        max-width: 100%; /* Limit the maximum width to 100% */
+    }
+
+    /* Style for the images to make them responsive */
+    .resizable-image {
+        width: 100%;
+        max-width: 100%; /* Prevent images from growing larger than their container */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Scale the image to cover the container while maintaining aspect ratio */
+    }
+</style>
+
+<div class="container mt-5 resizable-container">
+    <div class="card shadow-sm mb-4 resizable-container">
         <div class="card-body">
             <!-- Recipe Information -->
             <h2 class="card-title mb-4">{{ recipe[2] }}</h2> <!-- Recipe name -->
@@ -18,11 +35,11 @@ Recipe Details - Recipe App
 
             <!-- Display Recipe Images -->
             {% if images %}
-            <div id="recipeCarousel" class="carousel slide mt-4 mb-4" data-bs-ride="carousel">
+            <div id="recipeCarousel" class="carousel slide mt-4 mb-4 resizable-container" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     {% for image in images %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="d-block w-100 img-fluid rounded shadow-sm recipe-image">
+                        <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="d-block w-100 img-fluid rounded shadow-sm resizable-image">
                     </div>
                     {% endfor %}
                 </div>
@@ -39,7 +56,7 @@ Recipe Details - Recipe App
 
             <!-- Recipe Instructions -->
             <h3 class="mt-4">Instructions:</h3>
-            <p style="white-space: pre-wrap;">{{ recipe[3] }}</p>   
+            <p style="white-space: pre-wrap;" class="resizable-container">{{ recipe[3] }}</p>   
 
             <!-- Edit Button for Authorized Users -->
             {% if current_user.is_authenticated and (current_user.id == recipe[1] or current_user.is_admin) %}
