@@ -8,6 +8,14 @@ View Others' Recipes - Recipe App
 <div class="container mt-5">
     <h2 class="mb-4">Other Users' Recipes</h2>
     
+    <!-- Search Form -->
+    <form method="GET" action="{{ url_for('view_others_recipes') }}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="query" placeholder="Search recipes..." value="{{ request.args.get('query', '') }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
     <!-- Recipes List -->
     {% if recipes %}
     <div class="row">

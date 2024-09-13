@@ -214,13 +214,11 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/recipe/<int:recipe_id>')
-@login_required
 def recipe_detail(recipe_id):
     # Fetch the recipe details for the given recipe_id
     recipe = get_recipe_by_user(recipe_id)
 
     if not recipe:
-        # If the recipe is not found, show an error
         flash('Recipe not found.')
         return redirect(url_for('index'))
 
@@ -235,6 +233,7 @@ def recipe_detail(recipe_id):
         images = cursor.fetchall()
 
     return render_template('recipe_detail.html', recipe=recipe, ingredients=ingredients, images=images)
+
 
 
 @app.route('/edit/<int:recipe_id>', methods=['GET', 'POST'])
@@ -344,7 +343,6 @@ def update_profile():
 
 
 @app.route('/view_others')
-@login_required
 def view_others_recipes():
     recipes = get_all_recipes()
     return render_template('view_others_recipes.html', recipes=recipes)
