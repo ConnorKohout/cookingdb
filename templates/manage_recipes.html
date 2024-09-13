@@ -1,32 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Recipes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Manage Your Recipes</h1>
-    </header>
+{% extends 'base.html' %}
 
-    <div class="container">
-        <ul class="featured-recipe">
+{% block title %}Manage Recipes{% endblock %}
+
+{% block content %}
+<header>
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+        <h1>Manage Your Recipes</h1>
+    </div>
+</header>
+
+<div class="container mt-4">
+    {% if recipes %}
+        <ul class="list-group">
             {% for recipe in recipes %}
-                <li>
-                    <a href="{{ url_for('recipe_detail', recipe_id=recipe[0]) }}">{{ recipe[2] }}</a>
-                    <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}">Edit</a> |
-                    <form action="{{ url_for('delete_recipe', recipe_id=recipe[0]) }}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{{ url_for('recipe_detail', recipe_id=recipe[0]) }}" class="recipe-title">{{ recipe[2] }}</a>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}" class="btn btn-outline-primary btn-sm me-2">Edit</a>
+                        <form action="{{ url_for('delete_recipe', recipe_id=recipe[0]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Your Recipe App. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+    {% else %}
+        <!-- Centered message and button for adding a new recipe -->
+        <div class="text-center mt-5">
+            <p class="lead">No recipes found. Start by adding a new recipe!</p>
+            <a href="{{ url_for('add_recipe') }}" class="btn btn-success btn-lg mt-3">Add New Recipe</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,353 +1,197 @@
-/* CSS Variables for Colors */
-:root {
-    --primary-color: #333;
-    --secondary-color: #007bff;
-    --light-bg-color: #f4f4f4;
-    --dark-bg-color: #333;
-    --light-text-color: #333;
-    --dark-text-color: #f4f4f4;
-    --btn-hover-color: #0056b3;
-    --error-color: #d9534f; /* Error or danger color */
-    --success-color: #5cb85c; /* Success color */
-    --info-color: #5bc0de; /* Info color */
-    --border-radius: 5px;
-    --transition-speed: 0.3s;
-}
-
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    background-image: url("{{ url_for('static', filename='images/background.png') }}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: #333;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--light-bg-color);
-    color: var(--light-text-color);
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Dark Mode */
-body.dark-mode {
-    background-color: var(--dark-bg-color);
-    color: var(--dark-text-color);
+/* Input and Text Area Styles for Light Mode */
+input, textarea {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Container */
-.container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+/* Placeholder Text Styles for Light Mode */
+input::placeholder, textarea::placeholder {
+    color: #666;
+    opacity: 1;
+    transition: color 0.3s;
 }
 
-/* Header and Navigation */
-header {
-    background-color: var(--primary-color);
-    color: var(--dark-text-color);
-    padding: 10px 20px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f8f9fa;
+    padding: 15px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
     z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
 }
 
-header a {
-    color: var(--dark-text-color);
-    text-decoration: none;
-    padding: 0 15px;
-}
-
-header a:hover {
-    text-decoration: underline;
-}
-
-.toggle-button {
-    background-color: #444;
-    border: none;
-    color: var(--dark-text-color);
-    padding: 10px;
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    transition: background-color var(--transition-speed);
-}
-
-.toggle-button:hover {
-    background-color: #555;
-}
-
-/* Featured Recipe Section */
-.featured-recipe {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow var(--transition-speed);
-}
-
-body.dark-mode .featured-recipe {
-    background-color: #444;
-}
-
-.featured-recipe h2 {
-    margin-top: 0;
-    color: var(--light-text-color);
-}
-
-.featured-recipe p {
-    font-size: 14px;
-    color: #666;
-}
-
-.featured-recipe a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
-
-.featured-recipe a:hover {
-    text-decoration: underline;
-}
-
-/* Add Recipe Form */
-.add-recipe {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-body.dark-mode .add-recipe {
-    background-color: #444;
-}
-
-.add-recipe h2 {
-    margin-top: 0;
-    color: var(--light-text-color);
-}
-
-.add-recipe label {
+.sidebar a {
     display: block;
-    margin-bottom: 5px;
-    color: #666;
-    font-weight: bold;
-}
-
-.add-recipe input,
-.add-recipe textarea,
-.add-recipe select,
-.add-recipe button {
-    width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    font-size: 14px;
-}
-
-.add-recipe input:focus,
-.add-recipe textarea:focus,
-.add-recipe select:focus {
-    border-color: var(--secondary-color);
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.add-recipe button {
-    background-color: var(--secondary-color);
-    color: white;
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-}
-
-.add-recipe button:hover {
-    background-color: var(--btn-hover-color);
-}
-
-/* Footer */
-footer {
-    background-color: var(--primary-color);
-    color: var(--dark-text-color);
-    padding: 20px;
-    text-align: center;
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-}
-
-footer a {
-    color: var(--dark-text-color);
+    color: #007bff;
     text-decoration: none;
-    transition: color var(--transition-speed);
+    margin-bottom: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-footer a:hover {
-    color: var(--secondary-color);
+.sidebar a:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
 }
 
-/* Search Form Styles */
-.search-form {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+/* Main Content Styles */
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    flex: 1;
 }
 
-.search-form input[type="text"] {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    margin-right: 10px;
-    transition: box-shadow var(--transition-speed);
+/* Dark Mode Styles */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
 }
 
-.search-form input[type="text"]:focus {
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+/* Input and Text Area Styles for Dark Mode */
+.dark-mode input, 
+.dark-mode textarea {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
 }
 
-.search-form button {
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
+/* Placeholder Text Styles for Dark Mode */
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+    color: #bbbbbb;
+    opacity: 1;
 }
 
-.search-form button:hover {
-    background-color: var(--btn-hover-color);
+/* Card Styles for Dark Mode */
+.dark-mode .card {
+    background-color: #1e1e1e; /* Dark background for card */
+    color: #ffffff; /* Light text color for card */
+    border-color: #333333; /* Border color for card */
 }
 
-/* Recipe Images Gallery */
-.recipe-images {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+.dark-mode .card-title, 
+.dark-mode .card-text {
+    color: #ffffff; /* Light text color for titles and text inside cards */
 }
 
-.recipe-image {
-    width: 100%;
-    max-width: 300px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform var(--transition-speed);
+.dark-mode .btn-primary {
+    background-color: #bb86fc; /* Adjusted button color for dark mode */
+    border-color: #bb86fc;
 }
 
-.recipe-image:hover {
-    transform: scale(1.05);
+.dark-mode .btn-primary:hover {
+    background-color: #9856c3;
+    border-color: #9856c3;
+}
+
+/* List Group Styles for Dark Mode */
+.dark-mode .list-group-item {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #333333;
+}
+
+/* Button Styles for Dark Mode */
+.dark-mode .btn-outline-primary {
+    color: #bb86fc;
+    border-color: #bb86fc;
+}
+
+.dark-mode .btn-outline-primary:hover {
+    background-color: #bb86fc;
+    color: #121212;
+}
+
+.dark-mode .btn-danger {
+    background-color: #ff4c4c;
+    border-color: #ff4c4c;
+}
+
+.dark-mode .btn-danger:hover {
+    background-color: #d83b3b;
+    border-color: #d83b3b;
+}
+
+/* Sidebar and Footer Styles for Dark Mode */
+.dark-mode .sidebar,
+.dark-mode footer {
+    background-color: #1e1e1e;
+}
+
+.dark-mode .sidebar a {
+    color: #bb86fc;
+}
+
+.dark-mode .sidebar a:hover {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.dark-mode .main-content {
+    background-color: #121212;
 }
 
 /* Button Styles */
 .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    background-color: var(--secondary-color);
-    border: none;
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    text-align: center;
     cursor: pointer;
-    transition: background-color var(--transition-speed);
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .btn:hover {
-    background-color: var(--btn-hover-color);
+    background-color: #0056b3;
 }
 
-.btn-small {
-    padding: 5px 10px;
-    font-size: 12px;
-}
-
-.btn-danger {
-    background-color: var(--error-color);
-}
-
-.btn-danger:hover {
-    background-color: #c9302c;
-}
-
-/* Accessibility Improvements */
-a, button {
-    outline: none;
-    transition: outline var(--transition-speed);
-}
-
-a:focus, button:focus {
-    outline: 2px solid var(--secondary-color);
-    outline-offset: 2px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-    }
-
-    header {
-        text-align: left;
-        padding: 10px;
-    }
-    
-    header .toggle-button {
-        display: block;
-        margin: 10px auto;
-    }
-}
-/* Banner Styles */
-.banner {
-    background-color: var(--primary-color);
-    color: var(--dark-text-color);
-    padding: 15px 20px;
+/* Footer */
+footer {
     text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: #f8f9fa;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+/* Adjustments for Mobile Devices */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
 
-.navbar .btn {
-    text-decoration: none;
-    color: var(--dark-text-color);
-    background-color: #444;
-    padding: 8px 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-}
-
-.navbar .btn:hover {
-    background-color: #555;
-}
-
-/* Dark Mode Button */
-.toggle-button {
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-}
-
-.toggle-button:hover {
-    background-color: var(--btn-hover-color);
+    .main-content {
+        margin-left: 0;
+    }
 }

@@ -5,33 +5,41 @@ Recipe Details - Recipe App
 {% endblock %}
 
 {% block content %}
-<div class="featured-recipe">
-    <h2>{{ recipe[2] }}</h2> <!-- Recipe name -->
-    <p><strong>Author:</strong> {{ recipe[-1] }}</p>
-    <p><strong>Cuisine:</strong> {{ recipe[4] }}</p>
-    <p><strong>Preparation Time:</strong> {{ recipe[5] }} minutes</p>
-    <p><strong>Cooking Time:</strong> {{ recipe[6] }} minutes</p>
-    <p><strong>Diet Type:</strong> {{ recipe[7] }}</p>
+<div class="container mt-5">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <!-- Recipe Information -->
+            <h2 class="card-title">{{ recipe[2] }}</h2> <!-- Recipe name -->
+            <p class="card-text"><strong>Author:</strong> {{ recipe[-1] }}</p>
+            <p class="card-text"><strong>Cuisine:</strong> {{ recipe[4] }}</p>
+            <p class="card-text"><strong>Preparation Time:</strong> {{ recipe[5] }} minutes</p>
+            <p class="card-text"><strong>Cooking Time:</strong> {{ recipe[6] }} minutes</p>
+            <p class="card-text"><strong>Diet Type:</strong> {{ recipe[7] }}</p>
 
-    <!-- Display Recipe Images -->
-    <div class="recipe-images">
-        {% for image in images %}
-            <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="recipe-image">
-        {% endfor %}
+            <!-- Display Recipe Images -->
+            <div class="recipe-images mt-4">
+                {% for image in images %}
+                    <img src="{{ url_for('uploaded_file', filename=image[2]) }}" alt="{{ recipe[2] }}" class="img-fluid rounded shadow-sm mb-3">
+                {% endfor %}
+            </div>
+
+            <!-- Recipe Instructions -->
+            <h3 class="mt-4">Instructions:</h3>
+            <p>{{ recipe[3] }}</p>
+
+            <!-- Recipe Ingredients -->
+            <h3 class="mt-4">Ingredients:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    <li>{{ ingredient[2] }}: {{ ingredient[3] }} {{ ingredient[4] }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Edit Button for Authorized Users -->
+            {% if current_user.is_authenticated and (current_user.id == recipe[1] or current_user.is_admin) %}
+                <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}" class="btn btn-outline-primary mt-3">Edit Recipe</a>
+            {% endif %}
+        </div>
     </div>
-
-    <h3>Instructions:</h3>
-    <p>{{ recipe[3] }}</p>
-
-    <h3>Ingredients:</h3>
-    <ul>
-        {% for ingredient in ingredients %}
-            <li>{{ ingredient[2] }}: {{ ingredient[3] }} {{ ingredient[4] }}</li>
-        {% endfor %}
-    </ul>
-
-    {% if current_user.is_authenticated and (current_user.id == recipe[1] or current_user.is_admin) %}
-        <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}" class="btn">Edit Recipe</a>
-    {% endif %}
 </div>
 {% endblock %}

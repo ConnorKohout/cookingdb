@@ -157,38 +157,48 @@ def logout():
 @login_required
 def add_recipe():
     if request.method == 'POST':
-        name = request.form['name']
-        instructions = request.form['instructions']
-        cuisine = request.form['cuisine']
-        prep_time = request.form['prep_time']
-        cook_time = request.form['cook_time']
-        diet_type = request.form['diet_type']
-        
-        with connect_db() as conn:
-            cursor = conn.cursor()
-            cursor.execute('''
-            INSERT INTO recipes (user_id, name, instructions, cuisine, prep_time, cook_time, diet_type)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (current_user.id, name, instructions, cuisine, prep_time, cook_time, diet_type))
-            recipe_id = cursor.lastrowid  # Get the ID of the newly inserted recipe
+        try:
+            # Log the form data for debugging
+            print(request.form)
 
-            # Handle multiple image uploads
-            if 'photos' in request.files:
-                files = request.files.getlist('photos')
-                for file in files:
-                    if file and allowed_file(file.filename):
-                        filename = secure_filename(file.filename)
-                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                        # Insert each image filename into the database
-                        cursor.execute('INSERT INTO recipe_images (recipe_id, filename) VALUES (?, ?)', 
-                                       (recipe_id, filename))
-            
-            conn.commit()
+            # Ensure the form fields are correctly accessed
+            name = request.form['name']
+            instructions = request.form['instructions']
+            cuisine = request.form.get('cuisine', '')
+            prep_time = request.form.get('prep_time', 0)
+            cook_time = request.form.get('cook_time', 0)
+            diet_type = request.form.get('diet_type', '')
 
-        flash('Recipe added successfully!')
-        return redirect(url_for('index'))
+            with connect_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                INSERT INTO recipes (user_id, name, instructions, cuisine, prep_time, cook_time, diet_type)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                ''', (current_user.id, name, instructions, cuisine, prep_time, cook_time, diet_type))
+                recipe_id = cursor.lastrowid  # Get the ID of the newly inserted recipe
+
+                # Handle multiple image uploads
+                if 'photos' in request.files:
+                    files = request.files.getlist('photos')
+                    for file in files:
+                        if file and allowed_file(file.filename):
+                            filename = secure_filename(file.filename)
+                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                            cursor.execute('INSERT INTO recipe_images (recipe_id, filename) VALUES (?, ?)', 
+                                           (recipe_id, filename))
+                
+                conn.commit()
+
+            flash('Recipe added successfully!')
+            return redirect(url_for('index'))
+        except KeyError as e:
+            flash(f"Missing data for field: {e.args[0]}")
+        except Exception as e:
+            flash(f"An error occurred: {e}")
 
     return render_template('add_recipe.html')
+
+
 
 
 @app.route('/uploads/<filename>')
@@ -361,12 +371,15 @@ def get_recipes_by_user(user_id):
 def get_all_recipes():
     with connect_db() as conn:
         cursor = conn.cursor()
+        # Selecting the necessary columns from recipes and the author's username from users
         cursor.execute('''
-        SELECT recipes.*, users.username
+        SELECT recipes.id, recipes.name, recipes.instructions, recipes.cuisine, 
+               recipes.prep_time, recipes.cook_time, recipes.diet_type, users.username 
         FROM recipes
         JOIN users ON recipes.user_id = users.id
         ''')
         return cursor.fetchall()
+
 
 @app.route('/search', methods=['GET'])
 @login_required
@@ -388,6 +401,13 @@ def search_recipes():
         recipes = []
 
     return render_template('search_results.html', recipes=recipes, query=query)
+
+
+@app.route('/create-recipe', methods=['GET', 'POST'])
+def create_recipe():
+    # Logic to handle recipe creation
+    return render_template('create_recipe.html')
+
 
 @app.route('/change_password', methods=['GET', 'POST'])
 @login_required
