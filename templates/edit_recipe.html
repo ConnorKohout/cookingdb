@@ -8,6 +8,7 @@ Edit Recipe - Recipe App
 <div class="add-recipe">
     <h2>Edit Recipe</h2>
     <form method="post" enctype="multipart/form-data">
+        <!-- Recipe Fields -->
         <div class="form-group">
             <label for="name">Recipe Name</label>
             <input type="text" id="name" name="name" value="{{ recipe[2] }}" required>
@@ -32,10 +33,29 @@ Edit Recipe - Recipe App
             <label for="diet_type">Diet Type</label>
             <input type="text" id="diet_type" name="diet_type" value="{{ recipe[7] }}">
         </div>
+
+        <!-- Existing Photos with Delete Option -->
+        {% if images %}
         <div class="form-group">
-            <label for="photo">Update Photo</label>
-            <input type="file" id="photo" name="photo">
+            <label>Current Photos</label>
+            <div class="current-photos">
+                {% for image in images %}
+                <div class="photo-item">
+                    <img src="{{ url_for('uploaded_file', filename=image[2]) }}" class="edit-photo img-fluid rounded" alt="Current Photo">
+                    <input type="checkbox" name="delete_images" value="{{ image[0] }}"> Delete this photo
+                </div>
+                {% endfor %}
+            </div>
         </div>
+        {% endif %}
+
+        <!-- New Photo Upload -->
+        <div class="form-group">
+            <label for="new_photos">Add New Photos</label>
+            <input type="file" id="new_photos" name="new_photos" multiple>
+        </div>
+
+        <!-- Update Button -->
         <button type="submit" class="btn">Update Recipe</button>
     </form>
 </div>

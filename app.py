@@ -238,6 +238,7 @@ def edit_recipe(recipe_id):
         return redirect(url_for('index'))
 
     if request.method == 'POST':
+        # Get updated recipe data
         name = request.form['name']
         instructions = request.form['instructions']
         cuisine = request.form['cuisine']
@@ -255,7 +256,7 @@ def edit_recipe(recipe_id):
             WHERE id = ?
             ''', (name, instructions, cuisine, prep_time, cook_time, diet_type, recipe_id))
 
-            # Delete selected images
+            # Handle deletion of selected images
             delete_image_ids = request.form.getlist('delete_images')
             if delete_image_ids:
                 for image_id in delete_image_ids:
@@ -265,7 +266,7 @@ def edit_recipe(recipe_id):
                         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], image[0]))  # Delete file from filesystem
                         cursor.execute('DELETE FROM recipe_images WHERE id = ?', (image_id,))
 
-            # Add new images
+            # Handle new image uploads
             if 'new_photos' in request.files:
                 files = request.files.getlist('new_photos')
                 for file in files:
