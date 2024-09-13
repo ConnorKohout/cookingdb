@@ -34,16 +34,19 @@ A web application for managing, sharing, and discovering recipes. Users can regi
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/recipe-book-app.git
-   cd recipe-book-app
+   git clone https://github.com/ConnorKohout/cookingdb
+   cd cooking
 2. **Create a virtual environment:**
+
     python -m venv venv
     source venv/bin/activate   # On Windows use `venv\Scripts\activate`
 3. **Install the dependencies:**
+
     pip install -r requirements.txt
 4. **Run the application:**
     python app.py
 5. **Open your web browser and visit:**
+
     http://127.0.0.1:5000
     
 ### Project Structure
