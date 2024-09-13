@@ -16,9 +16,19 @@ Recipe Details - Recipe App
     /* Style for the images to make them responsive */
     .resizable-image {
         width: 100%;
-        max-width: 100%; /* Prevent images from growing larger than their container */
+        max-width: 300px; /* Set a maximum width for images */
         height: auto; /* Maintain aspect ratio */
         object-fit: cover; /* Scale the image to cover the container while maintaining aspect ratio */
+    }
+
+    /* Style for smaller default images */
+    .default-recipe-image {
+        width: 100%;
+        max-width: 150px; /* Adjust the maximum width for the default image */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Scale the image to cover the container while maintaining aspect ratio */
+        margin: 0 auto; /* Center the image */
+        display: block; /* Make the image block-level to respect margins */
     }
 </style>
 
@@ -52,6 +62,9 @@ Recipe Details - Recipe App
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
+            {% else %}
+            <!-- Display a smaller default image if no recipe images are available -->
+            <img src="{{ url_for('static', filename='images/default_recipe.jpg') }}" alt="Default Recipe Image" class="default-recipe-image">
             {% endif %}
 
             <!-- Recipe Instructions -->
